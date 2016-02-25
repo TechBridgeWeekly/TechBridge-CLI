@@ -1,0 +1,31 @@
+{
+  "name": "techbridge-cli",
+  "version": "1.0.0",
+  "description": "browse https://www.techbridge.cc on teminal",
+  "main": "cli.js",
+  "scripts": {
+    "start": "node cli",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Li-Hu",
+    "email": "aszx87410@gmail.com",
+    "url": "huli.logdown.com"
+  },
+  "bin": {
+    "tb": "./cli.js"
+  },
+  "license": "MIT",
+  "keywords":[
+    "cli",
+    "tb",
+    "tech",
+    "techbridge"
+  ],
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "cheerio": "^0.20.0",
+    "open": "0.0.5",
+    "request": "^2.69.0"
+  }
+}
