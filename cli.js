@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var open = require("open");
 var view = require('./view');
 var request = require('request');

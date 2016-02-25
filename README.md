@@ -1,9 +1,9 @@
-No# TechBridge-cli
+# TechBridge-cli
 > 用 CLI 瀏覽 [TechBridge](https://www.techbridge.cc/) 文章（受到 [hn-cli](https://github.com/rafaelrinaldi/hn-cli) 啟發）
-![瀏覽圖](tb-cli.jpg)
+![瀏覽圖](http://i.imgur.com/T5eiVEO.jpg)
 
 # Install
-`npm install -g `
+`npm install -g techbridge-cli `
 
 # Usage
 在 Terminal 輸入 `tb` 即可  

@@ -1,6 +1,6 @@
 {
   "name": "techbridge-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "browse https://www.techbridge.cc on teminal",
   "main": "cli.js",
   "scripts": {
