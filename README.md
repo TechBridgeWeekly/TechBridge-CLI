@@ -1,5 +1,6 @@
-# TechBridge-cli
+No# TechBridge-cli
 > 用 CLI 瀏覽 [TechBridge](https://www.techbridge.cc/) 文章（受到 [hn-cli](https://github.com/rafaelrinaldi/hn-cli) 啟發）
+![瀏覽圖](tb-cli.jpg)
 
 # Install
 `npm install -g `
