@@ -28,7 +28,7 @@ getTBItems(function(err, items){
       return category + ' | ' + item.text;
     },
     select: function(index){
-      open(items[index].url);
+      open(items[index-1].url);
     }
   })
 })
