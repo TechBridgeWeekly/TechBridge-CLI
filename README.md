@@ -9,8 +9,5 @@
 1. 當安裝完成，在 Terminal 下輸入 `tb` 即可開始使用！  
 2. 可用方向鍵上下瀏覽文章，按下 Enter 即可開啟文章，按下 `q`, `ESC`, `Ctrl+C` 任一關閉程式。
 
-1. Open your terminal after install.
-2. Use `top` and `down` to browse and use `enter` to read the article. You can use  `q`, `ESC`, `Ctrl+C` to quit the program.
-
 # License
 MIT
