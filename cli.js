@@ -40,7 +40,10 @@ function getTBItems(callback){
       return callback(error);
     }
     
-    $ = cheerio.load(body);
+    $ = cheerio.load(body, {
+      xmlMode: true,
+      decodeEntities: false
+    });
     var items = [];
     $("entry").each(function(index, element){
       var element = $(element);
@@ -56,7 +59,7 @@ function getTBItems(callback){
 }
 
 function stripTag(text){
-  return text.replace('<!--[CDATA[', '').replace(']]-->', '');
+  return text.replace('<!--[CDATA[', '').replace(']]-->', '').replace('<![CDATA[', '');
 }
 
 function getLength(text){
