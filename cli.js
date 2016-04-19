@@ -1,69 +1,65 @@
 #!/usr/bin/env node
 
 var open = require("open");
-var view = require('./view');
 var request = require('request');
 var cheerio = require('cheerio');
+
+var view = require('./view');
+var api = require('./api');
+
 
 view.init({
   title: 'TechBridge 技術日報(Today)'
 })
 
 view.loading();
+renderMain();
 
-getTBItems(function(err, items){
-  if(err){
-    console.log(err);
-    return;
-  }
+function renderMain(){
+  api.getCategory(function(err, items){
+    if(err){
+      console.log(err);
+      process.exit(1);
+    }
 
-  view.render({
-    items: items,
-    getTitle: function(item){
-      var category = item.category.split('(')[0];
-      var len = getLength(category);
-      for(var i=0;i<7-len;i++){
-        category = ' ' + category + ' ';
+    view.render({
+      type: 'main',
+      items: items,
+      getTitle: function(item){
+        return item.title;
+      },
+      select: function(index){
+        view.loading();
+        renderCategory(items[index].name);
       }
-      return category + ' | ' + item.text;
-    },
-    select: function(index){
-      open(items[index-1].url);
-    }
-  })
-})
-
-function getTBItems(callback){
-  var rssUrl = "https://www.techbridge.cc/feed/all";
-  request(rssUrl, function(error, response, body){
-    if(error){
-      return callback(error);
-    }
-    
-    $ = cheerio.load(body, {
-      xmlMode: true,
-      decodeEntities: false
-    });
-    var items = [];
-    $("entry").each(function(index, element){
-      var element = $(element);
-      items.push({
-        text: stripTag(element.find('title').html()),
-        category: stripTag(element.find('summary').html()),
-        url: element.find('link').attr('href')
-      });
     })
+  });
+}
 
-    callback(null, items);
+function renderCategory(name){
+  api.getItems(name, 1, function(err, items){
+    if(err){
+      console.log(err);
+      process.exit(1);
+      return;
+    }
+
+    view.render({
+      type: 'page',
+      items: items,
+      getTitle: function(item){
+        
+        return item.category + ' | ' + item.text;
+      },
+      select: function(index){
+        open(items[index].url);
+      },
+      left: function(){
+        view.loading();
+        renderMain();
+      }
+    })
   })
 }
 
-function stripTag(text){
-  return text.replace('<!--[CDATA[', '').replace(']]-->', '').replace('<![CDATA[', '');
-}
 
-function getLength(text){
-  var str = encodeURIComponent(text);
-  len = str.replace(/%[A-F\d]{2}/g, 'U').length;  
-  return len/3;
-}

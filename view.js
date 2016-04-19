@@ -5,6 +5,7 @@ var List = require('./component/List');
 var TitleBar = require('./component/TitleBar');
 
 var screen, list, loadingBox, titleBar;
+var prevIndex = 0;
 
 exports.init = function(options){
   options.title = options.title || 'TechBridge';
@@ -22,11 +23,17 @@ exports.loading = function(){
 }
 
 exports.render = function(options){
-  var now = 1;
   var length = options.items.length;
   var items = options.items.map(function(item){
     return options.getTitle(item);
   });
+
+  if(list){
+    screen.remove(list);
+    list.setItems([])
+    list.destroy();
+    list = null;
+  }
 
   titleBar = TitleBar(blessed);
   list = List(blessed, items);
@@ -37,24 +44,46 @@ exports.render = function(options){
 
   screen.append(titleBar);
   screen.append(list);
-  showLineNumber(now, length);
+  showLineNumber(1, length);
+
+  if(options.type=='main'){
+    list.select(prevIndex);
+    showLineNumber(prevIndex+1, length);
+  }
 
   list.focus();
   screen.render();
 
   list.on('select', function(item){
-    options.select(item.index - 1);
+    var index = item.index - item.parent.index - 1;
+    if(options.type=='main') prevIndex = index;
+    options.select(index);
+  })
+
+  list.key('right', function(){
+    if(options.type=='main') prevIndex = this.selected;
+    options.select(this.selected);
   })
 
   list.key('up', function(){
-    if(now==1) return;
-    showLineNumber(--now, length);
+    showLineNumber(this.selected+1, length);
   });
 
   list.key('down', function(){
-    if(now==length) return;
-    showLineNumber(++now, length);
+    showLineNumber(this.selected+1, length);
   });
+
+  list.key('pagedown', function(){
+    list.move(10);
+    showLineNumber(this.selected+1, length);
+  })
+
+  list.key('pageup', function(){
+    list.move(-10);
+    showLineNumber(this.selected+1, length);
+  })
+
+  list.key('left', options.left || function(){});
 
 }
 

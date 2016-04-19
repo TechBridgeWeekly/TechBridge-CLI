@@ -4,9 +4,9 @@ module.exports = function(blessed, items){
     width: '100%',
     height: '80%',
     items: items,
+    vi: true,
     tags: true,
     keys: true,
-    vi: true,
     border: {
       type: 'line'
     },
